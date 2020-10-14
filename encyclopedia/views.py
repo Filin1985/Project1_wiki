@@ -3,6 +3,7 @@ import markdown2
 from markdown2 import Markdown
 
 from . import util
+from .forms import PostModelForm
 
 
 def index(request):
@@ -18,3 +19,10 @@ def title(request, title):
         return render(request, 'encyclopedya/error.html', context)
     else:
         return render(request, "encyclopedia/title.html", context)
+
+def new_page(request):
+    form = PostModelForm()
+    context = {
+        "form": form
+    }
+    return render(request, 'encyclopedya/new_page.html', context)
