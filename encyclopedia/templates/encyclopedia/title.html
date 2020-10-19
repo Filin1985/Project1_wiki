@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-
+    {{ page|safe}}
            <a class="btn btn-primary" href='/wiki/{{title}}' role="button">Edit</a>
-        {{ data|safe}}
+        
 {% endblock %}

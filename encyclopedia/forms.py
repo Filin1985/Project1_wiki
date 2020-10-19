@@ -2,8 +2,7 @@ from django import forms
 
 
 class PostModelForm(forms.Form):
-    class Meta:
-        fields = [
-            'title',
-            'content'
-        ]
+    title = forms.CharField(label='Title', widget=forms.TextInput(
+        attrs={'required': True, 'class': 'form-control'}))
+    content = forms.CharField(widget=forms.Textarea(
+        attrs={'required': True, 'class': 'form-control'}))
