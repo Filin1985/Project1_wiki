@@ -6,3 +6,7 @@ class PostModelForm(forms.Form):
         attrs={'required': True, 'class': 'form-control'}))
     content = forms.CharField(widget=forms.Textarea(
         attrs={'required': True, 'class': 'form-control'}))
+
+
+class Edit(forms.Form):
+    textarea = forms.CharField(widget=forms.Textarea(), label='')

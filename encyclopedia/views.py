@@ -3,10 +3,11 @@ import markdown2
 from markdown2 import Markdown
 
 from . import util
-from .forms import PostModelForm
+from .forms import PostModelForm, Edit
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django import forms
 
 md = Markdown()
 
@@ -58,3 +59,32 @@ def newPage(request):
         return render(request, "encyclopedia/newpage.html", {
             'form': PostModelForm()
         })
+
+
+def edit(request, title):
+    form = PostModelForm()
+    if request.method == 'GET':
+        page = util.get_entry(title)
+
+        context = {
+            'form': form,
+            'edit': Edit(initial={'textarea': page}),
+            'title': title
+        }
+
+        return render(request, "encyclopedia/edit.html", context)
+    else:
+        form = Edit(request.POST)
+        if form.is_valid():
+            textarea = form.cleaned_data["textarea"]
+            util.save_entry(title, textarea)
+            page = util.get_entry(title)
+            page_converted = md.convert(page)
+
+            context = {
+                'form': form,
+                'page': page_converted,
+                'title': title
+            }
+
+            return render(request, "encyclopedia/title.html", context)
