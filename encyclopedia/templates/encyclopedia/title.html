@@ -1,11 +1,11 @@
-{% extends "encyclopedia/layout.html" %}
+{% extends "encyclopedia/layout.html" %} 
 
-{% block title %}
-    {{ title }}
-{% endblock %}
+{% block title %} 
+Encyclopedia | {{title}}
+{% endblock %} 
 
-{% block body %}
+{% block body %} 
+{{ page|safe}} 
 <a class="btn btn-primary" href="/wiki/{{ title }}/edit" role="button">Edit</a>
-{{ page|safe}}
-        
+
 {% endblock %}

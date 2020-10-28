@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 from django import forms
+import secrets
 
 md = Markdown()
 
@@ -88,3 +89,24 @@ def edit(request, title):
             }
 
             return render(request, "encyclopedia/title.html", context)
+
+
+def search(request):
+    query = request.GET.get('q', '')
+    if(util.get_entry(query) is not None):
+        return HttpResponseRedirect(reverse('title', kwargs={'title': query}))
+    else:
+        listTitle = []
+        for title in util.list_entries():
+            if query.upper() in title.upper():
+                listTitle.append(title)
+            context = {"entries": listTitle,
+                       "search": True,
+                       "query": query}
+        return render(request, "encyclopedia/index.html", context)
+
+
+def random(request):
+    data = util.list_entries()
+    randomTitle = secrets.choice(data)
+    return HttpResponseRedirect(reverse('title', kwargs={'title': randomTitle}))
